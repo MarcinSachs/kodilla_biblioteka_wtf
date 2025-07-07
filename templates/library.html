@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteka</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Moja Biblioteka</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul class=flashes>
+            {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        <h2>Dodaj nową książkę</h2>
+        <form method="POST" action="{{ url_for('library') }}">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.title.label }}
+                {{ form.title() }}
+                {% if form.title.errors %}
+                <ul class=errors>
+                    {% for error in form.title.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.author.label }}
+                {{ form.author() }}
+                {% if form.author.errors %}
+                <ul class=errors>
+                    {% for error in form.author.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.genre.label }}
+                {{ form.genre() }}
+                {% if form.genre.errors %}
+                <ul class=errors>
+                    {% for error in form.genre.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.year.label }}
+                {{ form.year() }}
+                {% if form.year.errors %}
+                <ul class=errors>
+                    {% for error in form.year.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <div class="actions">
+                <button type="submit" name="submit" class="btn">
+                    <i class="fas fa-plus"></i> Dodaj książkę
+                </button>
+            </div>
+        </form>
+
+        <h2>Lista książek</h2>
+        {% if books %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Tytuł</th>
+                    <th>Autor</th>
+                    <th>Gatunek</th>
+                    <th>Rok</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                <tr>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.genre }}</td>
+                    <td>{{ book.year }}</td>
+                    <td class="actions">
+                        <a href="{{ url_for('book_details', book_id=loop.index) }}" class="btn btn-secondary">
+                            <i class="fas fa-edit"></i> Edytuj
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>Brak książek w bibliotece.</p>
+        {% endif %}
+    </div>
+</body>
+
+</html>
