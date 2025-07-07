@@ -16,8 +16,6 @@ class Books:
         return self.books[id]
 
     def create(self, data):
-        data.pop('csrf_token')
-        data.pop('submit', None)
         self.books.append(data)
 
     def save_all(self):
@@ -25,8 +23,6 @@ class Books:
             json.dump(self.books, f)
 
     def update(self, id, data):
-        data.pop('csrf_token')
-        data.pop('submit', None)
         self.books[id] = data
         self.save_all()
 
