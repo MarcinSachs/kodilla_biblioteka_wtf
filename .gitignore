@@ -1,0 +1,27 @@
+# Virtual Environment
+.venv/
+venv/
+ENV/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE / Editor specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Flask instance folder
+instance/
+
+# Environment variables
+.env
+*.env
+
+# OS-specific files
+.DS_Store
+Thumbs.db
