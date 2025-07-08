@@ -6,6 +6,7 @@ from datetime import datetime
 
 
 class BookForm(FlaskForm):
+    isbn = StringField('ISBN')
     title = StringField('Tytuł', validators=[DataRequired()])
     author = StringField('Autor', validators=[DataRequired()])
     genre = StringField('Gatunek', validators=[DataRequired()])

@@ -109,6 +109,18 @@ form {
     box-sizing: border-box;
 }
 
+.input-with-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input-with-button input[type="text"] {
+    /* Override the default 100% width for inputs in form-groups */
+    width: auto;
+    flex-grow: 1; /* Make the input field take up the remaining space */
+}
+
 /* --- Buttons & Actions --- */
 .actions {
     height: auto;
