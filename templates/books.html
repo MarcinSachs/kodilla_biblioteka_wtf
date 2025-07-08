@@ -23,7 +23,17 @@
         </ul>
         {% endif %}
         {% endwith %}
-        <p>Aktualnie biblioteka zawiera {{books|length}} pozycji</p>
+        <p>
+            {% set n = books|length %}
+            Aktualnie biblioteka zawiera {{ n }}
+            {% if n == 1 %}
+            pozycję
+            {% elif n % 10 in [2, 3, 4] and n % 100 not in [12, 13, 14] %}
+            pozycje
+            {% else %}
+            pozycji
+            {% endif %}
+        </p>
         <h2>Lista książek</h2>
         {% if books %}
         <table>
