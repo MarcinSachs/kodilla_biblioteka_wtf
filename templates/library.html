@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteka</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/duotone/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
 </head>
@@ -55,7 +54,7 @@
                     <td>{{ book.genre }}</td>
                     <td>{{ book.year }}</td>
                     <td class="actions">
-                        <a href="{{ url_for('book_details', book_id=loop.index) }}" class="btn btn-secondary">
+                        <a href="{{ url_for('book_details', book_id=book.id) }}" class="btn btn-secondary">
                             <i class="ph-duotone ph-note-pencil"></i> Edytuj
                         </a>
                     </td>

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edytuj książkę - {{ book.title }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/duotone/style.css">
 </head>
 
 <body>
@@ -90,10 +90,10 @@
 
             <div class="actions">
                 <button type="submit" name="submit" class="btn">
-                    <i class="fas fa-save"></i> Zapisz zmiany
+                    <i class="ph-duotone ph-floppy-disk"></i> Zapisz zmiany
                 </button>
                 <a href="{{ url_for('library') }}" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left"></i> Powrót do listy
+                    <i class="ph-duotone ph-arrow-left"></i> Powrót do listy
                 </a>
             </div>
         </form>
