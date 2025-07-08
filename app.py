@@ -15,7 +15,7 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 @app.route("/library/", methods=["GET", "POST"])
 def library():
     form = BookForm()
-    # Get uniq genres from dodel and set to form
+    # Get uniq genres from model and set to form
     genre_choices = books.get_unique_genres()
     form.genre.choices = genre_choices
 
