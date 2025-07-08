@@ -19,27 +19,37 @@ class Books:
 
     def get(self, id):
         return next((book for book in self.books if book.get('id') == id), None)
-    
+
     def get_unique_genres(self):
-        genres_set = {book.get('genre') for book in self.books if book.get('genre')}
+        genres_set = {book.get('genre')
+                      for book in self.books if book.get('genre')}
         return sorted([(genre, genre) for genre in genres_set])
-    
+
     def create(self, data):
         data['id'] = self.next_id
         self.next_id += 1
         self.books.append(data)
+        self.save_all()
 
     def save_all(self):
         with open("books.json", "w", encoding="utf-8") as f:
             json.dump(self.books, f)
 
     def update(self, id, data):
-        for i, book in enumerate(self.books):
-            if book.get('id') == id:
-                data['id'] = id 
-                self.books[i] = data
-                self.save_all()
-                return
+        book = self.get(id)
+        if book:
+            book.update(data)
+            self.save_all()
+            return True
+        return False
+
+    def delete(self, id):
+        book = self.get(id)
+        if book:
+            self.books.remove(book)
+            self.save_all()
+            return True
+        return False
 
 
 books = Books()
