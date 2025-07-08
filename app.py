@@ -39,10 +39,10 @@ def library():
 
 @app.route("/library/<int:book_id>/", methods=["GET", "POST"])
 def book_details(book_id):
-    try:
-        book = books.get(book_id - 1)
-    except IndexError:
+    book = books.get(book_id)
+    if not book:
         abort(404)
+
     form = BookForm(data=book)
 
     if form.validate_on_submit():
@@ -59,7 +59,7 @@ def book_details(book_id):
             f.save(os.path.join(app.config['UPLOAD_FOLDER'], cover_filename))
             updated_data['cover'] = cover_filename
 
-        books.update(book_id - 1, updated_data)
+        books.update(book_id, updated_data)
         flash("Dane książki zostały zaktualizowane.", "success")
         return redirect(url_for("library"))
     return render_template("book.html", form=form, book_id=book_id, book=book)
