@@ -1,7 +1,8 @@
 /* --- Global Styles & Typography --- */
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background-color: #f4f7f6; /* Light gray background */
+    background-color: #f4f7f6;
+    /* Light gray background */
     color: #333;
     margin: 0;
     padding: 20px;
@@ -17,8 +18,10 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-h1, h2 {
-    color: #0d2c4f; /* Dark blue for headers */
+h1,
+h2 {
+    color: #0d2c4f;
+    /* Dark blue for headers */
     border-bottom: 2px solid #eef2f5;
     padding-bottom: 10px;
     margin-bottom: 20px;
@@ -53,18 +56,21 @@ table {
 }
 
 thead tr {
-    background-color: #007bff; /* Primary blue for table header */
+    background-color: #007bff;
+    /* Primary blue for table header */
     color: #ffffff;
     text-align: left;
 }
 
-th, td {
+th,
+td {
     padding: 12px 15px;
     border: 1px solid #ddd;
 }
 
 tbody tr:nth-of-type(even) {
-    background-color: #f8f9fa; /* Zebra striping for rows */
+    background-color: #f8f9fa;
+    /* Zebra striping for rows */
 }
 
 tbody tr:hover {
@@ -86,7 +92,7 @@ form {
     margin-bottom: 1.5rem;
 }
 
-.form-group label {
+.form-group>label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
@@ -100,13 +106,12 @@ form {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-sizing: border-box; /* Important for consistent sizing */
+    box-sizing: border-box;
 }
 
 /* --- Buttons & Actions --- */
 .actions {
-    display: flex;
-    gap: 10px;
+    height: auto;
     align-items: center;
     margin-top: 20px;
 }
@@ -114,26 +119,33 @@ form {
 .btn {
     display: inline-flex;
     align-items: center;
+    vertical-align: middle;
     gap: 8px;
+    margin: 0;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
+    box-sizing: border-box;
     cursor: pointer;
+    font-family: inherit;
+    line-height: 1.5;
     font-size: 1em;
     font-weight: bold;
     text-decoration: none;
     color: white;
-    background-color: #007bff; /* Primary blue */
+    background-color: #007bff;
     transition: background-color 0.2s ease-in-out;
 }
 
 .btn:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #0056b3;
+    /* Darker blue on hover */
     text-decoration: none;
 }
 
 .btn-secondary {
-    background-color: #6c757d; /* Gray for secondary actions */
+    background-color: #6c757d;
+    /* Gray for secondary actions */
 }
 
 .btn-secondary:hover {
@@ -162,7 +174,8 @@ form {
 }
 
 .errors li {
-    color: #721c24; /* Dark red for error text */
+    color: #721c24;
+    /* Dark red for error text */
     font-size: 0.9em;
 }
 
@@ -178,23 +191,52 @@ form {
     border-radius: 4px;
 }
 
+/* Custom File Input Styles */
+.file-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.file-input-hidden {
+    /* Hide the default input but keep it accessible */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+.file-input-name {
+    font-style: italic;
+    color: #666;
+    font-size: 0.9em;
+}
+
 /* --- Icon Styles (Boxicons) --- */
 [class*="bx-"] {
     transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
-    vertical-align: -0.2em; /* Lepsze wyrównanie z tekstem */
-    font-size: 1.3em; /* Lekko powiększone ikony */
+    vertical-align: -0.2em;
+    font-size: 1.3em;
     line-height: 1;
 }
 
 /* Efekt hover dla ikon wewnątrz przycisków i linków */
 .btn:hover [class*="bx-"] {
-    transform: scale(1.15) rotate(-5deg); /* Powiększenie i lekki obrót po najechaniu */
+    transform: scale(1.15);
+    /* Powiększenie i lekki obrót po najechaniu */
 }
 
 /* Specjalny styl dla ikony w głównym nagłówku */
 h1 .bx-library {
     font-size: 1.4em;
-    color: #007bff; /* Główny kolor niebieski */
+    color: #007bff;
+    /* Główny kolor niebieski */
     transition: transform 0.3s ease-in-out;
 }
 

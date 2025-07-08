@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edytuj książkę - {{ book.title }}</title>
-    <!-- Zmiana biblioteki ikon na Boxicons -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
@@ -27,11 +26,12 @@
         {% if book.cover %}
         <div class="current-cover">
             <p>Obecna okładka:</p>
-            <img src="{{ url_for('static', filename='uploads/' + book.cover) }}" alt="Okładka" class="book-cover-preview">
+            <img src="{{ url_for('static', filename='uploads/' + book.cover) }}" alt="Okładka"
+                class="book-cover-preview">
         </div>
         {% endif %}
 
-        <form method="POST" action="{{ url_for('book_details', book_id=book_id) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ url_for('book_edit', book_id=book_id) }}" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <div class="form-group">
                 {{ form.title.label }}
@@ -79,7 +79,13 @@
             </div>
             <div class="form-group">
                 {{ form.cover.label }} (pozostaw puste, aby nie zmieniać)
-                {{ form.cover() }}
+                <div class="file-input-wrapper">
+                    {{ form.cover(class="file-input-hidden") }}
+                    <label for="cover" class="btn btn-secondary">
+                        <i class='bx bx-upload'></i> Zmień plik...
+                    </label>
+                    <span class="file-input-name">Nie wybrano nowego pliku</span>
+                </div>
                 {% if form.cover.errors %}
                 <ul class=errors>
                     {% for error in form.cover.errors %}
@@ -99,7 +105,22 @@
             </div>
         </form>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileInput = document.getElementById('cover');
+            if (fileInput) {
+                const fileNameSpan = fileInput.closest('.file-input-wrapper').querySelector('.file-input-name');
 
+                fileInput.addEventListener('change', function () {
+                    if (this.files && this.files.length > 0) {
+                        fileNameSpan.textContent = this.files[0].name;
+                    } else {
+                        fileNameSpan.textContent = 'Nie wybrano nowego pliku';
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

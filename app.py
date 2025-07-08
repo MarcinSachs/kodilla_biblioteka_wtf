@@ -12,10 +12,14 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 
-@app.route("/library/", methods=["GET", "POST"])
+@app.route("/books/", methods=["GET"])
 def library():
+    return render_template("books.html", books=books.all())
+
+
+@app.route("/books/add/", methods=["GET", "POST"])
+def book_add():
     form = BookForm()
-    # Get uniq genres from model and set to form
     genre_choices = books.get_unique_genres()
     form.genre.choices = genre_choices
 
@@ -38,11 +42,11 @@ def library():
         flash("Książka została pomyślnie dodana!", "success")
         return redirect(url_for("library"))
 
-    return render_template("library.html", form=form, books=books.all())
+    return render_template("book_add.html", form=form)
 
 
-@app.route("/library/<int:book_id>/", methods=["GET", "POST"])
-def book_details(book_id):
+@app.route("/books/<int:book_id>/", methods=["GET", "POST"])
+def book_edit(book_id):
     book = books.get(book_id)
     if not book:
         abort(404)
@@ -71,7 +75,7 @@ def book_details(book_id):
         books.update(book_id, updated_data)
         flash("Dane książki zostały zaktualizowane.", "success")
         return redirect(url_for("library"))
-    return render_template("book_details.html", form=form, book_id=book_id, book=book)
+    return render_template("book_edit.html", form=form, book_id=book_id, book=book)
 
 
 if __name__ == "__main__":

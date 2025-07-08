@@ -4,69 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biblioteka</title>
-    <!-- Zmiana biblioteki ikon na Boxicons -->
+    <title>Dodaj nową książkę</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 
 <body>
     <div class="container">
-        <h1><i class='bx bx-library'></i> Moja Biblioteka</h1>
-
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        <ul class=flashes>
-            {% for category, message in messages %}
-            <li class="{{ category }}">{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% endwith %}
-        <p>Aktualnie biblioteka zawiera {{books|length}} pozycji</p>
-        <h2>Lista książek</h2>
-        {% if books %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Okładka</th>
-                    <th>Tytuł</th>
-                    <th>Autor</th>
-                    <th>Gatunek</th>
-                    <th>Rok</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for book in books %}
-                <tr>
-                    <td>
-                        {% if book.cover %}
-                        <img src="{{ url_for('static', filename='uploads/' + book.cover) }}" alt="Okładka"
-                            class="book-cover-thumbnail">
-                        {% else %}
-                        <img src="https://via.placeholder.com/50x75.png?text=Brak" alt="Brak okładki"
-                            class="book-cover-thumbnail">
-                        {% endif %}
-                    </td>
-                    <td>{{ book.title }}</td>
-                    <td>{{ book.author }}</td>
-                    <td>{{ book.genre }}</td>
-                    <td>{{ book.year }}</td>
-                    <td class="actions">
-                        <a href="{{ url_for('book_details', book_id=book.id) }}" class="btn btn-secondary">
-                            <i class='bx bxs-edit-alt'></i> Edytuj
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% else %}
-        <p>Brak książek w bibliotece.</p>
-        {% endif %}
-        <h2>Dodaj nową książkę</h2>
-        <form method="POST" action="{{ url_for('library') }}" enctype="multipart/form-data">
+        <h2>Dodaj książkę</h2>
+        <form method="POST" action="{{ url_for('book_add') }}" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <div class="form-group">
                 {{ form.title.label }}
@@ -114,7 +60,13 @@
             </div>
             <div class="form-group">
                 {{ form.cover.label }}
-                {{ form.cover() }}
+                <div class="file-input-wrapper">
+                    {{ form.cover(class="file-input-hidden") }}
+                    <label for="cover" class="btn btn-secondary">
+                        <i class='bx bx-upload'></i> Wybierz plik...
+                    </label>
+                    <span class="file-input-name">Nie wybrano pliku</span>
+                </div>
                 {% if form.cover.errors %}
                 <ul class=errors>
                     {% for error in form.cover.errors %}
@@ -125,11 +77,30 @@
             </div>
             <div class="actions">
                 <button type="submit" name="submit" class="btn">
-                    <i class='bx bx-plus'></i> Dodaj książkę
+                    <i class='bx bxs-save'></i> Zapisz zmiany
                 </button>
+                <a href="{{ url_for('library') }}" class="btn btn-secondary">
+                    <i class='bx bx-arrow-back'></i> Powrót do listy
+                </a>
             </div>
         </form>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileInput = document.getElementById('cover');
+            if (fileInput) {
+                const fileNameSpan = fileInput.closest('.file-input-wrapper').querySelector('.file-input-name');
+
+                fileInput.addEventListener('change', function () {
+                    if (this.files && this.files.length > 0) {
+                        fileNameSpan.textContent = this.files[0].name;
+                    } else {
+                        fileNameSpan.textContent = 'Nie wybrano pliku';
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>
