@@ -3,6 +3,8 @@ from forms import BookForm
 from models import books
 import os
 from werkzeug.utils import secure_filename
+import requests
+import xml.etree.ElementTree as ET
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "nininini"
@@ -129,7 +131,6 @@ def update_book(book_id):
         if field in data and not isinstance(data[field], expected_type):
             abort(400)
 
-
     updated_book_data = {
         'id': book_id,
         'title': data.get('title', book['title']),
@@ -140,6 +141,63 @@ def update_book(book_id):
     }
     books.update(book_id, updated_book_data)
     return jsonify({'book': updated_book_data})
+
+# Endpoint do pobierania danych po numerze ISBN
+
+
+@app.route("/api/v1/isbn/<isbn>", methods=["GET"])
+def get_book_by_isbn(isbn):
+    """Pobiera dane książki z serwisu e-isbn.pl w formacie ONIX."""
+    url = f"https://e-isbn.pl/IsbnWeb/api.xml?isbn={isbn}"
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        return jsonify({"error": "Nie udało się połączyć z serwisem ISBN.", "details": str(e)}), 502
+
+    try:
+        # Definiujemy przestrzeń nazw dla formatu ONIX 3.0, która jest niezbędna do parsowania
+        ns = {'onix': 'http://ns.editeur.org/onix/3.0/reference'}
+        root = ET.fromstring(response.content)
+
+        # Pobranie głównego elementu <Product> w przestrzeni nazw ONIX
+        product = root.find('onix:Product', ns)
+        if product is None:
+            return jsonify({"error": "Nie znaleziono książki dla podanego numeru ISBN."}), 404
+
+        # Wyciąganie tekstu z zagnieżdżonych elementów
+        def find_text(element, path, namespace):
+            node = element.find(path, namespace)
+            return node.text if node is not None else None
+
+        title = find_text(
+            product, 'onix:DescriptiveDetail/onix:TitleDetail/onix:TitleElement/onix:TitleText', ns)
+
+        # Autor jest w formacie "Nazwisko, Imię", więc go odwracamy
+        author_inverted = find_text(
+            product, "onix:DescriptiveDetail/onix:Contributor[onix:ContributorRole='A01']/onix:PersonNameInverted", ns)
+        author = ''
+        if author_inverted:
+            parts = author_inverted.split(',', 1)
+            author = f"{parts[1].strip()} {parts[0].strip()}" if len(
+                parts) == 2 else author_inverted
+
+        # Rok publikacji
+        pub_date_node = product.find(
+            "onix:PublishingDetail/onix:PublishingDate[onix:PublishingDateRole='01']/onix:Date", ns)
+        year = int(pub_date_node.text[:4]) if pub_date_node is not None and pub_date_node.text and len(
+            pub_date_node.text) >= 4 else None
+
+        book_data = {
+            'title': title or '',
+            'author': author or '',
+            'year': year,
+        }
+
+        return jsonify(book_data)
+    except (ET.ParseError, AttributeError, TypeError) as e:
+        # Obsługa błędów parsowania XML lub brakujących tagów
+        return jsonify({"error": "Nie udało się przetworzyć danych z serwisu ISBN.", "details": str(e)}), 500
 
 
 @app.errorhandler(404)

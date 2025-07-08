@@ -17,10 +17,10 @@
             <div class="form-group">
                 {{ form.isbn.label }}
                 <div class="input-with-button">
-                    {{ form.isbn(placeholder="Wpisz numer ISBN aby pobrać dane z bazy") }}
-                    <a href="#" class="btn btn-secondary">
+                    {{ form.isbn(placeholder="Wpisz numer ISBN, aby pobrać dane") }}
+                    <button type="button" id="find-by-isbn" class="btn btn-secondary">
                         <i class='bx bx-search-alt'></i> Znajdź
-                    </a>
+                    </button>
                 </div>
             </div>
             <div class="form-group">
@@ -111,6 +111,46 @@
                     } else {
                         fileNameSpan.textContent = 'Nie wybrano pliku';
                     }
+                });
+            }
+
+            const findBtn = document.getElementById('find-by-isbn');
+            const isbnInput = document.getElementById('isbn');
+            const titleInput = document.getElementById('title');
+            const authorInput = document.getElementById('author');
+            const yearInput = document.getElementById('year');
+
+            if (findBtn) {
+                findBtn.addEventListener('click', function () {
+                    const isbn = isbnInput.value.trim().replace(/-/g, '');
+                    if (!isbn) {
+                        alert('Proszę wpisać numer ISBN.');
+                        return;
+                    }
+
+                    findBtn.disabled = true;
+                    findBtn.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i> Szukam...';
+
+                    fetch(`/api/v1/isbn/${isbn}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                return response.json().then(err => { throw new Error(err.error || 'Wystąpił błąd serwera.') });
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.title) titleInput.value = data.title;
+                            if (data.author) authorInput.value = data.author;
+                            if (data.year) yearInput.value = data.year;
+                        })
+                        .catch(error => {
+                            console.error('Błąd podczas pobierania danych ISBN:', error);
+                            alert(`Nie udało się pobrać danych: ${error.message}`);
+                        })
+                        .finally(() => {
+                            findBtn.disabled = false;
+                            findBtn.innerHTML = '<i class="bx bx-search-alt"></i> Znajdź';
+                        });
                 });
             }
         });
