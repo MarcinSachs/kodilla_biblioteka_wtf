@@ -178,34 +178,26 @@ form {
     border-radius: 4px;
 }
 
-/* --- Icon Styles (Phosphor & FontAwesome) --- */
-[class*="ph-"], .fas {
+/* --- Icon Styles (Boxicons) --- */
+[class*="bx-"] {
     transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
-    vertical-align: middle; /* Lepsze wyrównanie z tekstem */
-    font-size: 1.2em; /* Lekko powiększone ikony */
+    vertical-align: -0.2em; /* Lepsze wyrównanie z tekstem */
+    font-size: 1.3em; /* Lekko powiększone ikony */
     line-height: 1;
 }
 
 /* Efekt hover dla ikon wewnątrz przycisków i linków */
-.btn:hover [class*="ph-"],
-.btn:hover .fas {
+.btn:hover [class*="bx-"] {
     transform: scale(1.15) rotate(-5deg); /* Powiększenie i lekki obrót po najechaniu */
 }
 
 /* Specjalny styl dla ikony w głównym nagłówku */
-h1 .ph-books {
+h1 .bx-library {
     font-size: 1.4em;
-    --ph-primary-color: #007bff;
-    --ph-secondary-color: #a8d8ff;
+    color: #007bff; /* Główny kolor niebieski */
     transition: transform 0.3s ease-in-out;
 }
 
-h1:hover .ph-books {
+h1:hover .bx-library {
     transform: scale(1.1);
-}
-
-/* Dodatkowy styl dla ikony edycji, aby była spójna */
-.btn-secondary .ph-note-pencil {
-    --ph-primary-color: #ffffff; 
-    --ph-secondary-color: #d1d5db; 
 }

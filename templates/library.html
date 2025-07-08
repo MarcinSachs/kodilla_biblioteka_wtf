@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteka</title>
+    <!-- Zmiana biblioteki ikon na Boxicons -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/duotone/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 
 <body>
     <div class="container">
-        <h1><i class="ph-duotone ph-books"></i> Moja Biblioteka</h1>
+        <h1><i class='bx bx-library'></i> Moja Biblioteka</h1>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -55,7 +55,7 @@
                     <td>{{ book.year }}</td>
                     <td class="actions">
                         <a href="{{ url_for('book_details', book_id=book.id) }}" class="btn btn-secondary">
-                            <i class="ph-duotone ph-note-pencil"></i> Edytuj
+                            <i class='bx bxs-edit-alt'></i> Edytuj
                         </a>
                     </td>
                 </tr>
@@ -125,7 +125,7 @@
             </div>
             <div class="actions">
                 <button type="submit" name="submit" class="btn">
-                    <i class="ph-bold ph-plus"></i> Dodaj książkę
+                    <i class='bx bx-plus'></i> Dodaj książkę
                 </button>
             </div>
         </form>
