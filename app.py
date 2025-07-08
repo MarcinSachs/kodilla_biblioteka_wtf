@@ -20,9 +20,7 @@ def library():
 @app.route("/books/add/", methods=["GET", "POST"])
 def book_add():
     form = BookForm()
-    genre_choices = books.get_unique_genres()
-    form.genre.choices = genre_choices
-
+    genres = [genre[0] for genre in books.get_unique_genres()]
     if form.validate_on_submit():
         new_book_data = {
             'title': form.title.data,
@@ -42,7 +40,7 @@ def book_add():
         flash("Książka została pomyślnie dodana!", "success")
         return redirect(url_for("library"))
 
-    return render_template("book_add.html", form=form)
+    return render_template("book_add.html", form=form, genres=genres)
 
 
 @app.route("/books/<int:book_id>/", methods=["GET", "POST"])
@@ -53,11 +51,7 @@ def book_edit(book_id):
 
     form = BookForm(data=book)
 
-    genre_choices = books.get_unique_genres()
-    if (book['genre'], book['genre']) not in genre_choices:
-        genre_choices.append((book['genre'], book['genre']))
-    form.genre.choices = genre_choices
-
+    genres = [genre[0] for genre in books.get_unique_genres()]
     if form.validate_on_submit():
         updated_data = {
             'title': form.title.data,
@@ -75,7 +69,7 @@ def book_edit(book_id):
         books.update(book_id, updated_data)
         flash("Dane książki zostały zaktualizowane.", "success")
         return redirect(url_for("library"))
-    return render_template("book_edit.html", form=form, book_id=book_id, book=book)
+    return render_template("book_edit.html", form=form, book_id=book_id, book=book, genres=genres)
 
 
 if __name__ == "__main__":

@@ -57,7 +57,12 @@
             </div>
             <div class="form-group">
                 {{ form.genre.label }}
-                {{ form.genre() }}
+                {{ form.genre(list="genre-list", autocomplete="off") }}
+                <datalist id="genre-list">
+                    {% for genre in genres %}
+                    <option value="{{ genre }}">
+                        {% endfor %}
+                </datalist>
                 {% if form.genre.errors %}
                 <ul class=errors>
                     {% for error in form.genre.errors %}
@@ -105,7 +110,7 @@
             </div>
         </form>
     </div>
-    <script>
+    <script> 
         document.addEventListener('DOMContentLoaded', function () {
             const fileInput = document.getElementById('cover');
             if (fileInput) {
