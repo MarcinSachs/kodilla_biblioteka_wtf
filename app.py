@@ -71,7 +71,7 @@ def book_details(book_id):
         books.update(book_id, updated_data)
         flash("Dane książki zostały zaktualizowane.", "success")
         return redirect(url_for("library"))
-    return render_template("book.html", form=form, book_id=book_id, book=book)
+    return render_template("book_details.html", form=form, book_id=book_id, book=book)
 
 
 if __name__ == "__main__":

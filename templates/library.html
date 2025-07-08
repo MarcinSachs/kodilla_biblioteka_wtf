@@ -7,11 +7,13 @@
     <title>Biblioteka</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/duotone/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/bold/style.css">
 </head>
 
 <body>
     <div class="container">
-        <h1>Moja Biblioteka</h1>
+        <h1><i class="ph-duotone ph-books"></i> Moja Biblioteka</h1>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -54,7 +56,7 @@
                     <td>{{ book.year }}</td>
                     <td class="actions">
                         <a href="{{ url_for('book_details', book_id=loop.index) }}" class="btn btn-secondary">
-                            <i class="fas fa-edit"></i> Edytuj
+                            <i class="ph-duotone ph-note-pencil"></i> Edytuj
                         </a>
                     </td>
                 </tr>
@@ -124,7 +126,7 @@
             </div>
             <div class="actions">
                 <button type="submit" name="submit" class="btn">
-                    <i class="fas fa-plus"></i> Dodaj książkę
+                    <i class="ph-bold ph-plus"></i> Dodaj książkę
                 </button>
             </div>
         </form>
