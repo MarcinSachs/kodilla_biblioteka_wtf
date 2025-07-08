@@ -15,6 +15,10 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 @app.route("/library/", methods=["GET", "POST"])
 def library():
     form = BookForm()
+    # Get uniq genres from dodel and set to form
+    genre_choices = books.get_unique_genres()
+    form.genre.choices = genre_choices
+
     if form.validate_on_submit():
         new_book_data = {
             'title': form.title.data,
@@ -44,6 +48,11 @@ def book_details(book_id):
         abort(404)
 
     form = BookForm(data=book)
+
+    genre_choices = books.get_unique_genres()
+    if (book['genre'], book['genre']) not in genre_choices:
+        genre_choices.append((book['genre'], book['genre']))
+    form.genre.choices = genre_choices
 
     if form.validate_on_submit():
         updated_data = {

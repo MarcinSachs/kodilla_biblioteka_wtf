@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, IntegerField
+from wtforms import StringField, SubmitField, IntegerField, SelectField
 from flask_wtf.file import FileField, FileAllowed
 from wtforms.validators import DataRequired, NumberRange
 from datetime import datetime
@@ -8,7 +8,7 @@ from datetime import datetime
 class BookForm(FlaskForm):
     title = StringField('Tytuł', validators=[DataRequired()])
     author = StringField('Autor', validators=[DataRequired()])
-    genre = StringField('Gatunek', validators=[DataRequired()])
+    genre = SelectField('Gatunek', validators=[DataRequired()])
     year = IntegerField(
         'Rok',
         validators=[

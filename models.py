@@ -19,7 +19,11 @@ class Books:
 
     def get(self, id):
         return next((book for book in self.books if book.get('id') == id), None)
-
+    
+    def get_unique_genres(self):
+        genres_set = {book.get('genre') for book in self.books if book.get('genre')}
+        return sorted([(genre, genre) for genre in genres_set])
+    
     def create(self, data):
         data['id'] = self.next_id
         self.next_id += 1
