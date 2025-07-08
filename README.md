@@ -1,22 +1,25 @@
 # Biblioteka Książek - Aplikacja Flask
 
-Prosta aplikacja webowa do zarządzania kolekcją książek, zbudowana przy użyciu frameworka Flask i biblioteki Flask-WTF. Aplikacja pozwala na przeglądanie, dodawanie i edytowanie książek, a dane przechowuje w pliku `books.json`.
-
+Prosta aplikacja webowa do zarządzania kolekcją książek, zbudowana przy użyciu frameworka Flask i biblioteki Flask-WTF. Aplikacja pozwala na przeglądanie, dodawanie, edytowanie i usuwanie książek, a dane przechowuje w pliku `books.json`. Obsługuje także przesyłanie okładek oraz pobieranie danych książki po numerze ISBN z serwisu e-isbn.pl.
 
 ## Funkcjonalności
 
 - Wyświetlanie listy książek w przejrzystej tabeli.
 - Dodawanie nowych książek za pomocą formularza z walidacją po stronie serwera.
 - Edycja danych istniejących książek.
+- Usuwanie książek.
+- Przesyłanie okładek książek (obsługa plików jpg/png/jpeg).
 - Utrwalanie danych w pliku `books.json`.
-- Nowoczesny i responsywny interfejs użytkownika z ikonami.
+- Nowoczesny i responsywny interfejs użytkownika.
+- REST API do zarządzania książkami (GET, POST, PUT, DELETE).
+- Endpoint do pobierania danych książki po numerze ISBN (ONIX z e-isbn.pl).
 
 ## Technologie
 
 - **Backend:** Python, Flask
 - **Formularze:** Flask-WTF, WTForms
 - **Frontend:** HTML5, CSS3, Jinja2
-- **Ikony:** Font Awesome
+- **API:** REST, JSON
 
 ## Instalacja i uruchomienie
 
@@ -47,25 +50,23 @@ Aby uruchomić aplikację lokalnie, postępuj zgodnie z poniższymi krokami.
 
 4.  **Uruchom aplikację:**
     ```bash
-    flask run
-    ```
-    Alternatywnie, możesz uruchomić bezpośrednio plik `app.py`:
-    ```bash
     python app.py
     ```
 
 5.  **Otwórz aplikację w przeglądarce:**
-    Przejdź pod adres http://127.0.0.1:5000/library/
+    Przejdź pod adres http://127.0.0.1:5000/books/
 
 ## Struktura plików
 
 ```
 kodilla_biblioteka_wtf/
 ├── static/
+│   └── uploads/          # Przesłane okładki książek
 │   └── style.css         # Style CSS
 ├── templates/
-│   ├── book.html         # Szablon edycji książki
-│   └── library.html      # Główny szablon listy i dodawania
+│   ├── books.html        # Szablon listy książek
+│   ├── book_add.html     # Szablon dodawania książki
+│   └── book_edit.html    # Szablon edycji książki
 ├── .venv/                # Środowisko wirtualne
 ├── app.py                # Główny plik aplikacji Flask
 ├── books.json            # Plik z danymi książek
@@ -73,3 +74,20 @@ kodilla_biblioteka_wtf/
 ├── models.py             # Model do zarządzania danymi
 └── requirements.txt      # Zależności projektu
 ```
+
+## API
+
+- **GET** `/books/api/v1/books/` – lista książek (JSON)
+- **GET** `/books/api/v1/books/<id>` – szczegóły książki
+- **POST** `/books/api/v1/books/` – dodaj książkę (JSON)
+- **PUT** `/books/api/v1/books/<id>` – edytuj książkę (JSON)
+- **DELETE** `/books/api/v1/books/<id>` – usuń książkę
+- **GET** `/api/v1/isbn/<isbn>` – pobierz dane książki po numerze ISBN
+
+## Uwagi
+
+- Okładki książek są zapisywane w katalogu `static/uploads/`.
+- Plik `books.json` jest tworzony automatycznie przy pierwszym uruchomieniu, jeśli nie istnieje.
+- W przypadku korzystania z API, wymagane jest przesyłanie danych w formacie JSON.
+
+---
